@@ -16,12 +16,17 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.set('x-powered-by', false);
+
 app.get("/test", (req, res) => {
   res.json({ message: "Server is working" });
 });
 
 const authRoutes = require("./routes/authRoutes");
 app.use("/api/auth", authRoutes);
+
+const aiRoutes = require("./routes/aiRoutes");
+app.use("/api/ai", aiRoutes);
 
 const PORT = process.env.PORT || 5001;
 
