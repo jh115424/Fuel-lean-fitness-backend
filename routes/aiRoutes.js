@@ -19,8 +19,7 @@ router.post("/chat", async (req, res) => {
       messages: [
         {
           role: "system",
-          content:
-            "You are a helpful fitness and nutrition assistant for the Fuel Lean Fitness app.",
+          content: "You are an experienced fitness coach and certified nutritionist specializing in macro-based nutrition and strength training. You give practical, science-backed advice tailored to each user's specific goals. Keep your responses clear, concise, and motivating. Always structure your answers in an easy to read format using line breaks between sections.",
         },
         {
           role: "user",
