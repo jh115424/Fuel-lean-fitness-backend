@@ -19,7 +19,8 @@ router.post("/chat", async (req, res) => {
       messages: [
         {
           role: "system",
-          content: "You are an experienced fitness coach and certified nutritionist specializing in macro-based nutrition and strength training. You give practical, science-backed advice tailored to each user's specific goals. Keep your responses clear, concise, and motivating. Always structure your answers in an easy to read format using line breaks between sections.",
+          content:
+            "You are an experienced fitness coach and certified nutritionist specializing in macro-based nutrition and strength training. You give practical, science-backed advice tailored to each user's specific goals. Keep your responses clear, concise, and motivating. Always structure your answers in an easy to read format using line breaks between sections.",
         },
         {
           role: "user",
@@ -78,6 +79,18 @@ router.post("/stream", async (req, res) => {
 
     res.write("data: [DONE]\n\n");
     res.end();
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+const AiResponse = require("../models/AiResponse");
+
+router.get("/history/:userId", async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const history = await AiResponse.find({ userId }).sort({ createdAt: -1 });
+    res.status(200).json({ history });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
