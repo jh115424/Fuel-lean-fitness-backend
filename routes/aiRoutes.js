@@ -39,9 +39,9 @@ router.post("/chat", async (req, res) => {
   }
 });
 
-router.post("/stream", async (req, res) => {
+router.get("/stream", async (req, res) => {
   try {
-    const { prompt } = req.body;
+    const { prompt } = req.query;
 
     if (!prompt) {
       return res.status(400).json({ message: "Prompt is required" });
@@ -85,6 +85,16 @@ router.post("/stream", async (req, res) => {
 });
 
 const AiResponse = require("../models/AiResponse");
+
+router.post("/save", async (req, res) => {
+  try {
+    const { userId, type, prompt, response } = req.body;
+    const saved = await AiResponse.create({ userId, type, prompt, response });
+    res.status(201).json({ saved });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
 
 router.get("/history/:userId", async (req, res) => {
   try {
